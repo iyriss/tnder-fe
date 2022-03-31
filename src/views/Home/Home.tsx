@@ -1,6 +1,9 @@
 import { useEffect } from 'react';
 import { useAuth0 } from '@auth0/auth0-react';
 import * as S from './Home.styled';
+import DislikeIcon from '../../components/icons/DislikeIcon';
+import LikeIcon from '../../components/icons/LikeIcon';
+import OccupationIcon from '../../components/icons/OccupationIcon';
 
 export const Home: React.FC = () => {
   const { user } = useAuth0();
@@ -24,8 +27,22 @@ export const Home: React.FC = () => {
             alt='agent'
           />
         </S.ProfileCard>
-        <S.IntelligenceCard />
+        <S.IntelligenceCard>
+          <S.Text fontSize={'30px'}>Intelligence report</S.Text>
+          <S.IntelligenceInnerCard>
+            <S.OccupationContainer>
+              <OccupationIcon />
+              <br />
+              <S.Text fontSize={'16px'}>Occupation</S.Text>
+            </S.OccupationContainer>
+            <S.Text fontSize={'16px'}>Description</S.Text>
+          </S.IntelligenceInnerCard>
+        </S.IntelligenceCard>
       </S.DashboardCards>
+      <S.ActionButtonsContainer>
+        <DislikeIcon />
+        <LikeIcon />
+      </S.ActionButtonsContainer>
     </S.DashboardPage>
   );
 };

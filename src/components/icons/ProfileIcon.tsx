@@ -1,5 +1,3 @@
-import * as React from 'react';
-
 const ProfileIcon = (props: React.SVGProps<SVGSVGElement>) => {
   return (
     <svg
