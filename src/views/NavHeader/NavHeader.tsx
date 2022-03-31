@@ -1,10 +1,16 @@
 import React from 'react';
+import Logo from '../../components/Logo';
 import * as S from './NavHeader.styled';
+import { LogoWrapper } from '../Login/styledcomponents/loginStyled.styled';
+import ProfileIcon from '../../components/ProfileIcon';
+
+const logo = Logo();
 
 const NavHeader = () => {
   return (
     <S.NavContainer>
-      <img src={require('../../assets/logo.png')} alt='logo' />
+      <LogoWrapper>{logo}</LogoWrapper>
+      <ProfileIcon />
     </S.NavContainer>
   );
 };
