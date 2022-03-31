@@ -2,6 +2,7 @@ import React from "react";
 import ReactDOM from "react-dom";
 import App from "./App";
 import { Auth0Provider } from "@auth0/auth0-react";
+import { GazeCloudProvider } from "./providers/gazeCloud";
 
 ReactDOM.render(
   <React.StrictMode>
@@ -10,7 +11,9 @@ ReactDOM.render(
       clientId="2i8KFZYhYov1Ih4rUcisknpeq4UdMp7a"
       redirectUri={window.location.origin}
     >
-      <App />
+      <GazeCloudProvider>
+        <App />
+      </GazeCloudProvider>
     </Auth0Provider>
   </React.StrictMode>,
   document.getElementById("root")
