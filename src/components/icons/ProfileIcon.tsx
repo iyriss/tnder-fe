@@ -7,7 +7,7 @@ const ProfileIcon = (props: React.SVGProps<SVGSVGElement>) => {
       xmlns='http://www.w3.org/2000/svg'
       {...props}
     >
-      <path fill='#000' d='M0 0h103v94H0z' />
+      <path fill='none' d='M0 0h103v94H0z' />
       <path
         fillRule='evenodd'
         clipRule='evenodd'
