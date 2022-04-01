@@ -21,6 +21,7 @@ class linked_node {
 }
 
 function create_linked_list(data: DataType[]) {
+  const sortedList = data.sort((a, b) => a.x + b.x - (a.y + b.y));
   const linked_list = new linked_node(0, 0, 0);
   let current = linked_list;
   for (let i = 0; i < data.length; i++) {
