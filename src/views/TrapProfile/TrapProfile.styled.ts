@@ -71,3 +71,23 @@ export const ProfileInputContainer = styled.div`
   margin-top: 20px;
   width: 600px;
 `;
+
+export const InputFileButton = styled.div`
+  width: 180px;
+  height: 70px;
+  background-color: #8764d0;
+  padding: 20px 32px;
+  border-radius: 5px;
+  color: #fff;
+  border: none;
+  margin-top: 40px;
+  font-size: 20px;
+  margin-left: auto;
+  margin-right: auto;
+  cursor: pointer;
+  label {
+    cursor: pointer;
+    width: 180px;
+    height: 70px;
+  }
+`;
