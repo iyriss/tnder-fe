@@ -28,12 +28,6 @@ export const TrapProfile: React.FC = () => {
   const imageApi = new ImageApi();
 
   useEffect(() => {
-    if (userProfile !== {}) {
-      setProfile(userProfile);
-    }
-  }, [userProfile]);
-
-  useEffect(() => {
     const getData = async () => {
       const userProfile = await profileApi.getUserProfile(user?.email);
       setUserProfile(userProfile.data);
@@ -44,7 +38,6 @@ export const TrapProfile: React.FC = () => {
   const createProfile: any = (e: any) => {
     e.preventDefault();
     profileApi.createProfile(profile);
-    setUserProfile(profile);
   };
 
   const handleChange: any = (e: any) => {
