@@ -12,7 +12,6 @@ const navLinkStyle = {
   fontSize: '24px',
   fontFamily: 'Roboto Slab',
   fontWeight: '600',
-  borderBottom: '2px solid #fff',
 };
 
 const NavHeader = () => {
@@ -20,25 +19,15 @@ const NavHeader = () => {
     <S.NavContainer>
       <LogoWrapper>{logo}</LogoWrapper>
       <S.NavContainer>
-        <NavLink
-          to='/'
-          className='nav-link'
-          style={({ isActive }) =>
-            isActive ? navLinkStyle : { ...navLinkStyle, borderBottom: 'none' }
-          }
-        >
+        <NavLink to='/' style={navLinkStyle}>
           Home
         </NavLink>
-        <NavLink
-          to='/contracts'
-          className='nav-link'
-          style={({ isActive }) =>
-            isActive ? navLinkStyle : { ...navLinkStyle, borderBottom: 'none' }
-          }
-        >
+        <NavLink to='/contracts' style={navLinkStyle}>
           Contracts
         </NavLink>
-        <ProfileIcon />
+        <NavLink to='/profile' style={{ cursor: 'pointer' }}>
+          <ProfileIcon />
+        </NavLink>
       </S.NavContainer>
     </S.NavContainer>
   );

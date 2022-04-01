@@ -2,16 +2,20 @@ import styled from 'styled-components';
 
 interface TextProps {
   fontSize?: string;
+  fontWeight?: string;
 }
 
 export const Text = styled('p')<TextProps>`
   font-size: ${(props) => (props.fontSize ? props.fontSize : '16px')};
+  font-weight: ${(props) => (props.fontWeight ? props.fontWeight : 'normal')};
+  margin: 0;
 `;
 
 export const DashboardPage = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
+  margin-top: 20px;
 `;
 
 export const DashboardCards = styled.div`
@@ -59,10 +63,11 @@ export const IntelligenceCard = styled.div`
 `;
 
 export const IntelligenceInnerCard = styled.div`
-  height: 380px;
+  height: 390px;
   width: 550px;
   background-color: #000;
   margin: auto;
+  margin-top: 24px;
   padding: 20px;
   box-sizing: border-box;
 `;
@@ -72,6 +77,7 @@ export const OccupationContainer = styled.div`
   align-items: center;
   justify-content: flex-start;
   grid-gap: 8px;
+  margin-bottom: 20px;
 `;
 
 export const ActionButtonsContainer = styled.div`
