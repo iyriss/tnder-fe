@@ -2,7 +2,7 @@ import axios from "axios";
 
 export class HeatmapApi {
   //private baseURL = `http://${process.env.REACT_APP_CLOUDINARY_NAME}/profiles`;
-  private baseURL = `http://localhost:3001/heatmaps`;
+  private baseURL = `https://lychee-surprise-64630.herokuapp.com/heatmaps`;
 
   public async createHeatmap(heatmap: any) {
     const res = await axios.post(this.baseURL + "/create", heatmap);
