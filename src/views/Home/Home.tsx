@@ -45,10 +45,10 @@ export const Home: React.FC = () => {
   }, [isProcessing]);
 
   useEffect(() => {
-    startTracking();
-    setTimeout(() => {
-      stopTracking();
-    }, 20000);
+    // startTracking();
+    // setTimeout(() => {
+    //   stopTracking();
+    // }, 20000);
   }, []);
 
   return (
