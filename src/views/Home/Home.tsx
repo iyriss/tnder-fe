@@ -49,8 +49,12 @@ export const Home: React.FC = () => {
       Then will need to reset this.
     */
     // if (data) {
-    //   console.log("data: ", data);
-    //   setFormattedData(() => format_data(data));
+    //   const formattedData = format_data(data);
+    //   const heatmapData = {
+    //     userId: user?.email,
+    //     viewer:
+    //   }
+    // heatmapApi.postHeatmap(formattedData);
     // }
   }, [data]);
 
@@ -62,11 +66,12 @@ export const Home: React.FC = () => {
     console.log("isProcessing: ", isProcessing);
   }, [isProcessing]);
 
+  const handleStopTracking = () => {
+    stopTracking();
+  };
+
   useEffect(() => {
     // startTracking();
-    // setTimeout(() => {
-    //   stopTracking();
-    // }, 20000);
     const beData = {
       user: "test@gmail.com",
       viewer: "viewer@gmail.com",
@@ -76,6 +81,7 @@ export const Home: React.FC = () => {
       const heatmaps = await heatmapApi.getMatchHeatmap();
       console.log("heatmaps: ", heatmaps);
     };
+    console.log("insde here");
     getHeatmaps();
     // heatmapApi.createHeatmap(beData);
   }, []);
@@ -120,12 +126,12 @@ export const Home: React.FC = () => {
           </S.IntelligenceInnerCard>
         </S.IntelligenceCard>
         <S.ArrowContainer>
-          <ArrowIcon />
+          <ArrowIcon onClick={handleStopTracking} />
         </S.ArrowContainer>
       </S.DashboardCards>
       <S.ActionButtonsContainer>
-        <DislikeIcon />
-        <LikeIcon />
+        <DislikeIcon onClick={handleStopTracking} />
+        <LikeIcon onClick={handleStopTracking} />
       </S.ActionButtonsContainer>
       <S.MissionNumberContainer>
         <SpyIcon />
