@@ -11,8 +11,8 @@ export const ContractProfile = (profile: any) => {
   useEffect(() => {
     const getHeatmaps = async () => {
       const heatmaps = await heatmapApi.getMatchHeatmap();
-      setHeatmap(() => heatmaps.data[0]);
-      console.log("heatmaps: ", heatmaps);
+      setHeatmap(() => heatmaps.data[0].heatmap);
+      console.log("heatmaps: ", heatmaps.data[0].heatmap);
     };
     console.log("insde here");
     getHeatmaps();
@@ -43,7 +43,9 @@ export const ContractProfile = (profile: any) => {
         <Heatmap formattedData={heatmap} />
         <img
           src={
-            "https://media.istockphoto.com/vectors/cartoon-ninja-illustration-vector-id831242374?k=20&m=831242374&s=170667a&w=0&h=gWV3OgPPUpPcick_BR1Ki76xzhjxTs4iVqjCxKQdSzo="
+            heatmap
+              ? heatmap[0].image
+              : "https://media.istockphoto.com/vectors/cartoon-ninja-illustration-vector-id831242374?k=20&m=831242374&s=170667a&w=0&h=gWV3OgPPUpPcick_BR1Ki76xzhjxTs4iVqjCxKQdSzo="
           }
           alt="agent"
         />

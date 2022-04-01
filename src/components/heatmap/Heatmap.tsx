@@ -34,7 +34,7 @@ const Heatmap: React.FC<Props> = ({ formattedData }) => {
     datasets: [
       {
         label: "Views",
-        data: formattedData ? formattedData : testData,
+        data: formattedData ? formattedData : [],
         backgroundColor: "rgba(53, 162, 235, 0.5)",
       },
     ],
