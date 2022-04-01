@@ -1,6 +1,7 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useGazeProvider } from "../../providers/gazeCloud";
-import * as S from "./styles/calibration.styled";
+import * as S from "../styles/dataButtons.styled";
+import formatData from "../../utils/FormatData";
 
 const Calibration: React.FC = () => {
   const [
@@ -10,8 +11,14 @@ const Calibration: React.FC = () => {
     { data, error, isProcessing },
   ] = useGazeProvider();
 
-  return (
-    <S.TrackingButton onClick={triggerCalibration}>Calibrate</S.TrackingButton>
-  );
+  useEffect(() => {
+    if (data && data.length > 1) {
+      console.log(formatData(data));
+    }
+    // Api route to dave data
+    // Has current user, will need viewed user id passed in
+  }, [data]);
+
+  return <S.Button onClick={triggerCalibration}>Calibrate</S.Button>;
 };
 export default Calibration;

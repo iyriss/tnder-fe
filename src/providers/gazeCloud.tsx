@@ -1,11 +1,12 @@
 import React, { useContext, useState } from "react";
+import { DataType } from "../utils/FormatData";
 
 type GazeResult = [
   () => void,
   () => void,
   () => void,
   {
-    data: any | undefined;
+    data: Array<DataType> | null;
     isProcessing: boolean;
     error: string | null;
   }
@@ -15,10 +16,10 @@ const GazeContext = React.createContext<GazeResult | undefined>(undefined);
 
 export const GazeCloudProvider: React.FC = ({ children }): any => {
   const [isProcessing, setIsProcessing] = useState(false);
-  const [isCalibrated, setIsCalibrated] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  const [data, setData] = useState<any | undefined>();
+  const [data, setData] = useState<Array<DataType> | null>([]);
 
+  const gazeData: any = [];
   const triggerCalibration = () => {
     setIsProcessing(true);
     setError(null);
@@ -29,7 +30,6 @@ export const GazeCloudProvider: React.FC = ({ children }): any => {
     // @ts-ignore
     GazeCloudAPI.OnCalibrationComplete = function () {
       setIsProcessing(false);
-      setIsCalibrated(true);
       // @ts-ignore
       GazeCloudAPI.StopEyeTracking();
       console.log("gaze Calibration Complete");
@@ -45,9 +45,24 @@ export const GazeCloudProvider: React.FC = ({ children }): any => {
 
     // @ts-ignore
     GazeCloudAPI.OnResult = function (GazeData) {
-      console.log("gaze data: ", GazeData);
-      setData(GazeData);
+      gazeData.push(GazeData);
     };
+
+    setTimeout(() => {
+      // @ts-ignore
+      (GazeCloudAPI as any).StopEyeTracking();
+
+      const data: Array<DataType> = gazeData.map(
+        ({ GazeX, GazeY }: { GazeX: number; GazeY: number }) => {
+          return {
+            x: GazeX,
+            y: GazeY,
+            r: 2,
+          };
+        }
+      );
+      setData(data);
+    }, 10000);
   };
 
   const startTracking = () => {
@@ -58,6 +73,15 @@ export const GazeCloudProvider: React.FC = ({ children }): any => {
   const stopTracking = () => {
     // @ts-ignore
     (GazeCloudAPI as any).StopEyeTracking();
+
+    const data: Array<DataType> = gazeData.map((gaze: any) => {
+      return {
+        x: gaze.x,
+        y: gaze.y,
+        r: gaze.r,
+      };
+    });
+    setData(data);
   };
 
   return (

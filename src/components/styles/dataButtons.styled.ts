@@ -1,6 +1,6 @@
 import styled from "styled-components";
 
-export const TrackingButton = styled.button`
+export const Button = styled.button`
   background-color: #f5f5f5;
   border: 1px solid #d9d9d9;
   border-radius: 4px;

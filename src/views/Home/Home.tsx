@@ -5,6 +5,7 @@ import DislikeIcon from "../../components/icons/DislikeIcon";
 import LikeIcon from "../../components/icons/LikeIcon";
 import OccupationIcon from "../../components/icons/OccupationIcon";
 import { Calibration } from "../../components/callibration/";
+import { StopButton } from "../../components/dataButtons";
 
 export const Home: React.FC = () => {
   const { user } = useAuth0();
@@ -44,6 +45,7 @@ export const Home: React.FC = () => {
         <DislikeIcon />
         <LikeIcon />
         <Calibration />
+        <StopButton />
       </S.ActionButtonsContainer>
     </S.DashboardPage>
   );
