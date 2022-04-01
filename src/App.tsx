@@ -3,7 +3,7 @@ import { Home } from "./views/Home/Home";
 import { TrapProfile } from "./views/TrapProfile/TrapProfile";
 import { Login } from "./views/Login";
 import { Contracts } from "./views/Contracts";
-import { Admin } from "./views/Admin";
+import { Admin } from "./views/Admin/Admin";
 import { useAuth0 } from "@auth0/auth0-react";
 import { NavHeader } from "./views/NavHeader";
 
