@@ -3,6 +3,7 @@ import { Home } from "./views/Home/Home";
 import { Profile } from "./views/Profile/Profile";
 import { Login } from "./views/Login";
 import { Contracts } from "./views/Contracts";
+import { Admin } from "./views/Admin/Admin";
 import { useAuth0 } from "@auth0/auth0-react";
 import { NavHeader } from "./views/NavHeader";
 
@@ -30,6 +31,7 @@ export const App = () => {
         <Route path="/" element={<Home />} />
         <Route path="/profile" element={<Profile />} />
         <Route path="/contracts" element={<Contracts />} />
+        <Route path="/admin" element={<Admin />} />
       </Routes>
     </Router>
   );

@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useAuth0 } from "@auth0/auth0-react";
 import * as S from "./Home.styled";
 import DislikeIcon from "../../components/icons/DislikeIcon";
@@ -7,9 +7,11 @@ import OccupationIcon from "../../components/icons/OccupationIcon";
 import ArrowIcon from "../../components/icons/ArrowIcon";
 import SpyIcon from "../../components/icons/SpyIcon";
 import { useGazeProvider } from "../../providers/gazeCloud";
+import { ProfileApi } from "../../apis/ProfileApi";
 
 export const Home: React.FC = () => {
   const { user } = useAuth0();
+  const profileApi = new ProfileApi();
   const [
     triggerCalibration,
     startTracking,
@@ -17,8 +19,16 @@ export const Home: React.FC = () => {
     { data, error, isProcessing },
   ] = useGazeProvider();
 
+  const [profiles, setProfiles] = useState([{}]);
+
   useEffect(() => {
     console.log("user: ", user);
+    //cant use async in useffect
+    const getData = async () => {
+      const profiles = await profileApi.getProfiles();
+      setProfiles(profiles.data);
+    };
+    getData();
   }, [user]);
 
   useEffect(() => {
@@ -54,8 +64,14 @@ export const Home: React.FC = () => {
   return (
     <S.DashboardPage>
       <S.Title>
-        Welcome back USERNAME! Here are the five missions you can complete
-        today.
+        Welcome back USERNAME!{" "}
+        {profiles.length < 2 ? (
+          <span>You have 1 mission available today.</span>
+        ) : (
+          <span>
+            Here are the {profiles.length} missions you can complete today.
+          </span>
+        )}
       </S.Title>
       <S.DashboardCards>
         <S.ProfileCard>
@@ -66,7 +82,9 @@ export const Home: React.FC = () => {
             alt="agent"
           />
           <S.NameAgeStripe>
-            <S.Title>Name, Age</S.Title>
+            {/* @ts-ignore */}
+            <S.Title>{profiles[0].name + ", " + profiles[0].age}</S.Title>
+            {/* i hate ts for small projects nick :) */}
           </S.NameAgeStripe>
         </S.ProfileCard>
         <S.IntelligenceCard>
@@ -75,9 +93,11 @@ export const Home: React.FC = () => {
             <S.OccupationContainer>
               <OccupationIcon />
               <br />
-              <S.Text fontSize={"16px"}>Occupation</S.Text>
+              {/* @ts-ignore */}
+              <S.Text fontSize={"16px"}>{profiles[0].job}</S.Text>
             </S.OccupationContainer>
-            <S.Text fontSize={"16px"}>Description</S.Text>
+            {/* @ts-ignore */}
+            <S.Text fontSize={"16px"}>{profiles[0].description}</S.Text>
           </S.IntelligenceInnerCard>
         </S.IntelligenceCard>
         <S.ArrowContainer>
@@ -90,7 +110,7 @@ export const Home: React.FC = () => {
       </S.ActionButtonsContainer>
       <S.MissionNumberContainer>
         <SpyIcon />
-        <S.Text> x Number</S.Text>
+        <S.Text> x {profiles.length}</S.Text>
       </S.MissionNumberContainer>
     </S.DashboardPage>
   );
