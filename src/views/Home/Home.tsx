@@ -4,17 +4,52 @@ import * as S from "./Home.styled";
 import DislikeIcon from "../../components/icons/DislikeIcon";
 import LikeIcon from "../../components/icons/LikeIcon";
 import OccupationIcon from "../../components/icons/OccupationIcon";
-import { Calibration } from "../../components/callibration/";
-import { StopButton } from "../../components/dataButtons";
 import ArrowIcon from "../../components/icons/ArrowIcon";
 import SpyIcon from "../../components/icons/SpyIcon";
+import { useGazeProvider } from "../../providers/gazeCloud";
 
 export const Home: React.FC = () => {
   const { user } = useAuth0();
+  const [
+    triggerCalibration,
+    startTracking,
+    stopTracking,
+    { data, error, isProcessing },
+  ] = useGazeProvider();
 
   useEffect(() => {
     console.log("user: ", user);
   }, [user]);
+
+  useEffect(() => {
+    console.log("is this formatted? ", data);
+    /* 
+      Should have calibrated before viewing this page
+
+      On view start tracking. If more than 20 seconds stop to
+      limit data
+
+      When user presses yes or no we call stop tracking
+      and send data to be
+      
+      Then will need to reset this.
+    */
+  }, [data]);
+
+  useEffect(() => {
+    console.log("error: ", error);
+  }, [error]);
+
+  useEffect(() => {
+    console.log("isProcessing: ", isProcessing);
+  }, [isProcessing]);
+
+  useEffect(() => {
+    startTracking();
+    setTimeout(() => {
+      stopTracking();
+    }, 20000);
+  }, []);
 
   return (
     <S.DashboardPage>
@@ -52,8 +87,6 @@ export const Home: React.FC = () => {
       <S.ActionButtonsContainer>
         <DislikeIcon />
         <LikeIcon />
-        <Calibration />
-        <StopButton />
       </S.ActionButtonsContainer>
       <S.MissionNumberContainer>
         <SpyIcon />

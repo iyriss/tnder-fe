@@ -10,7 +10,6 @@ class linked_node {
   public r: number;
   public sum: number;
   public next: linked_node | null;
-  public prev: linked_node | null;
 
   constructor(x: number, y: number, r: number) {
     this.x = x;
@@ -18,7 +17,6 @@ class linked_node {
     this.r = r;
     this.sum = x + y;
     this.next = null;
-    this.prev = null;
   }
 }
 
@@ -28,7 +26,6 @@ function create_linked_list(data: DataType[]) {
   for (let i = 0; i < data.length; i++) {
     const node = new linked_node(data[i].x, data[i].y, data[i].r);
     current.next = node;
-    node.prev = current;
     current = node;
   }
   return linked_list;
@@ -39,10 +36,8 @@ function create_bubble_data(head: linked_node) {
   let current: linked_node | null = head;
   let currentNode = null;
   while (current) {
-    let high = 9999999;
-    if (current.next) {
-      high = current.next.sum + 50;
-    } else {
+    let high = current.next ? current.next.sum + 50 : 999999;
+    if (!current.next) {
       // Tail node
       data.push({ x: current.x, y: current.y, r: current.r, color: "blue" });
     }
@@ -62,6 +57,7 @@ function create_bubble_data(head: linked_node) {
         data.push(currentNode);
         currentNode = null;
       } else {
+        // If the node is not an iterative node, then add it to the data
         data.push({ x: current.x, y: current.y, r: current.r, color: "blue" });
       }
     }

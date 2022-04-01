@@ -17,9 +17,11 @@ export const options = {
   scales: {
     y: {
       beginAtZero: true,
+      display: false,
     },
     x: {
       beginAtZero: true,
+      display: false,
     },
   },
 };

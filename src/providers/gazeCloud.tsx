@@ -1,5 +1,6 @@
+import { useAuth0 } from "@auth0/auth0-react";
 import React, { useContext, useState } from "react";
-import { DataType } from "../utils/FormatData";
+import format_data, { DataType } from "../utils/FormatData";
 
 type GazeResult = [
   () => void,
@@ -18,8 +19,9 @@ export const GazeCloudProvider: React.FC = ({ children }): any => {
   const [isProcessing, setIsProcessing] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [data, setData] = useState<Array<DataType> | null>([]);
+  const { user } = useAuth0();
 
-  const gazeData: any = [];
+  let gazeData: any = [];
   const triggerCalibration = () => {
     setIsProcessing(true);
     setError(null);
@@ -42,46 +44,34 @@ export const GazeCloudProvider: React.FC = ({ children }): any => {
     GazeCloudAPI.OnError = function (msg: Error) {
       setError(`error: ${msg.message}`);
     };
-
-    // @ts-ignore
-    GazeCloudAPI.OnResult = function (GazeData) {
-      gazeData.push(GazeData);
-    };
-
-    setTimeout(() => {
-      // @ts-ignore
-      (GazeCloudAPI as any).StopEyeTracking();
-
-      const data: Array<DataType> = gazeData.map(
-        ({ GazeX, GazeY }: { GazeX: number; GazeY: number }) => {
-          return {
-            x: GazeX,
-            y: GazeY,
-            r: 2,
-          };
-        }
-      );
-      setData(data);
-    }, 10000);
   };
 
   const startTracking = () => {
     // @ts-ignore
     (GazeCloudAPI as any).StartEyeTracking();
+
+    // @ts-ignore
+    GazeCloudAPI.OnResult = function (GazeData) {
+      gazeData.push(GazeData);
+    };
   };
 
   const stopTracking = () => {
     // @ts-ignore
     (GazeCloudAPI as any).StopEyeTracking();
 
-    const data: Array<DataType> = gazeData.map((gaze: any) => {
-      return {
-        x: gaze.x,
-        y: gaze.y,
-        r: gaze.r,
-      };
-    });
-    setData(data);
+    const data: Array<DataType> = gazeData.map(
+      ({ GazeX, GazeY }: { GazeX: number; GazeY: number }) => {
+        return {
+          x: GazeX,
+          y: GazeY,
+          r: 2,
+        };
+      }
+    );
+
+    setData(format_data(data));
+    gazeData = [];
   };
 
   return (

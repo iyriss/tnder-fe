@@ -1,5 +1,6 @@
 import React from "react";
 import styled from "styled-components";
+import { Heatmap } from "../../components/heatmap";
 
 const userProfiles = [
   {
@@ -132,7 +133,8 @@ const ContractsProfile = (props: any) => {
       </div>
 
       <div className="row">
-        <div className="item contract-heatmap">HEATMAP HERE</div>
+        {/* <div className="item contract-heatmap">HEATMAP HERE</div> */}
+        <Heatmap />
       </div>
 
       <div className="sd-icon">

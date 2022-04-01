@@ -5,7 +5,6 @@ import { Login } from "./views/Login";
 import { Contracts } from "./views/Contracts";
 import { useAuth0 } from "@auth0/auth0-react";
 import { NavHeader } from "./views/NavHeader";
-import { Heatmap } from "./components/heatmap";
 
 export const App = () => {
   const { isAuthenticated, isLoading } = useAuth0();
@@ -31,7 +30,6 @@ export const App = () => {
         <Route path="/" element={<Home />} />
         <Route path="/profile" element={<Profile />} />
         <Route path="/contracts" element={<Contracts />} />
-        <Route path="/heatmap" element={<Heatmap />} />
       </Routes>
     </Router>
   );
