@@ -1,1 +1,1 @@
-export { default as Callibration } from "./Callibration";
+export { default as Calibration } from "./Callibration";

@@ -2,7 +2,7 @@ import React from "react";
 import { useGazeProvider } from "../../providers/gazeCloud";
 import * as S from "./styles/calibration.styled";
 
-const Callibration: React.FC = () => {
+const Calibration: React.FC = () => {
   const [
     triggerCalibration,
     startTracking,
@@ -10,10 +10,8 @@ const Callibration: React.FC = () => {
     { data, error, isProcessing },
   ] = useGazeProvider();
 
-  function handleClick() {}
-
   return (
     <S.TrackingButton onClick={triggerCalibration}>Calibrate</S.TrackingButton>
   );
 };
-export default Callibration;
+export default Calibration;
