@@ -1,9 +1,18 @@
+html,
 body {
   margin: 0;
   font-family: 'Roboto', sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 
-  background: linear-gradient(to bottom right, rgb(0, 0, 0), rgb(46, 46, 46));
+  background: linear-gradient(to bottom right, rgb(0, 0, 0), rgb(75, 75, 75));
   color: #ffffff;
+  box-sizing: border-box;
+  height: 100%;
+  overflow: auto;
+}
+
+a:hover {
+  border-bottom: none;
+  text-decoration: underline;
 }

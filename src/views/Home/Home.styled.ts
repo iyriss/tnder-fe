@@ -2,23 +2,29 @@ import styled from 'styled-components';
 
 interface TextProps {
   fontSize?: string;
+  fontWeight?: string;
 }
 
 export const Text = styled('p')<TextProps>`
   font-size: ${(props) => (props.fontSize ? props.fontSize : '16px')};
+  font-weight: ${(props) => (props.fontWeight ? props.fontWeight : 'normal')};
+  margin: 0;
 `;
 
 export const DashboardPage = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
+  margin: 20px 40px;
 `;
 
 export const DashboardCards = styled.div`
+  position: 'relative';
   display: flex;
   justify-content: space-evenly;
   align-items: center;
-  position: 'relative';
+  flex-wrap: wrap;
+  width: 100%;
 `;
 
 export const Title = styled.p`
@@ -32,6 +38,7 @@ export const ProfileCard = styled.div`
   height: 480px;
   width: 550px;
   margin-right: 20px;
+  margin-top: 20px;
   img {
     height: 100%;
     width: 100%;
@@ -56,13 +63,15 @@ export const IntelligenceCard = styled.div`
   background-color: #323232;
   padding: 20px;
   box-sizing: border-box;
+  margin-top: 20px;
 `;
 
 export const IntelligenceInnerCard = styled.div`
-  height: 380px;
+  height: 390px;
   width: 550px;
   background-color: #000;
   margin: auto;
+  margin-top: 24px;
   padding: 20px;
   box-sizing: border-box;
 `;
@@ -72,13 +81,14 @@ export const OccupationContainer = styled.div`
   align-items: center;
   justify-content: flex-start;
   grid-gap: 8px;
+  margin-bottom: 20px;
 `;
 
 export const ActionButtonsContainer = styled.div`
   display: flex;
   justify-content: space-between;
   width: 400px;
-  margin-top: 30px;
+  padding-top: 50px;
 `;
 
 export const MissionNumberContainer = styled.div`
@@ -86,8 +96,7 @@ export const MissionNumberContainer = styled.div`
   justify-content: space-evenly;
   align-items: center;
   width: 150px;
-  margin-left: auto;
-  margin-right: 50px;
+  margin: 20px 50px 40px auto;
 `;
 
 export const ArrowContainer = styled.div`

@@ -25,15 +25,18 @@ const Container = styled.div`
   color: white;
   display: flex;
   flex-flow: column wrap;
-  height: 90vh;
   margin: 20px 60px;
+
+  .contracts-header {
+    color: white;
+    font-size: 36px;
+  }
 `;
 
 const ContractsContainer = styled.div`
   display: flex;
   flex-flow: row wrap;
   justify-content: space-around;
-  height: 700px;
 `;
 
 const Contract = styled.div`
@@ -45,8 +48,8 @@ const Contract = styled.div`
   border: 5px solid #a692d1;
 
   .contract-img {
-    width: 180px;
-    height: 180px;
+    width: 150px;
+    height: 150px;
   }
 
   .contract-info {
@@ -62,13 +65,14 @@ const Contract = styled.div`
   }
 
   .contract-heatmap {
-    //height: 300px;
     background-color: grey;
   }
 
   .row {
     display: flex;
     flex-flow: row;
+    flex-wrap: wrap;
+    width: 100%;
   }
 
   .item {
@@ -90,6 +94,7 @@ const ContractsProfile = (props: any) => {
       <div className="row">
         <div className="contract-info item">
           <img className="contract-img" src={props.user.avatar} />
+          <br />
           <div className="contract-basic-info">
             {props.user.name}, {props.user.age}
           </div>
@@ -134,7 +139,6 @@ const ContractsProfile = (props: any) => {
 
       <div className="row">
         <div className="item contract-heatmap">HEATMAP HERE</div>
-        {/* <Heatmap /> */}
       </div>
 
       <div className="sd-icon">
@@ -184,7 +188,7 @@ const ContractsProfile = (props: any) => {
 export const Contracts: React.FC = () => {
   return (
     <Container>
-      <h2>Contracts</h2>
+      <h2 className="contracts-header">Contracts</h2>
       <br />
       <ContractsContainer>
         {userProfiles.map(function (user, i) {
