@@ -8,8 +8,13 @@ export class ProfileApi {
     return res;
   }
 
-  public async getProfiles() {
-    const res = await axios.get(this.baseURL + "/");
+  public async getProfiles(userEmail: any) {
+    const res = await axios.get(this.baseURL + "/" + userEmail);
+    return res;
+  }
+
+  public async getUserProfile(userEmail: any) {
+    const res = await axios.get(this.baseURL + "/profile/" + userEmail);
     return res;
   }
 }

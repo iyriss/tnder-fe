@@ -30,7 +30,7 @@ export const Home: React.FC = () => {
     console.log("user: ", user);
     //cant use async in useffect
     const getData = async () => {
-      const profiles = await profileApi.getProfiles();
+      const profiles = await profileApi.getProfiles(user?.email);
       setProfiles(profiles.data);
     };
     getData();
