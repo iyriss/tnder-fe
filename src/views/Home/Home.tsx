@@ -8,8 +8,6 @@ import ArrowIcon from "../../components/icons/ArrowIcon";
 import SpyIcon from "../../components/icons/SpyIcon";
 import { useGazeProvider } from "../../providers/gazeCloud";
 import format_data, { BubbleData } from "../../utils/FormatData";
-import { testData } from "../../assets/testData";
-import { Heatmap } from "../../components/heatmap";
 import { ProfileApi } from "../../apis/ProfileApi";
 
 export const Home: React.FC = () => {
@@ -62,10 +60,10 @@ export const Home: React.FC = () => {
   }, [isProcessing]);
 
   useEffect(() => {
-    startTracking();
-    setTimeout(() => {
-      stopTracking();
-    }, 20000);
+    // startTracking();
+    // setTimeout(() => {
+    //   stopTracking();
+    // }, 20000);
   }, []);
 
   return (
