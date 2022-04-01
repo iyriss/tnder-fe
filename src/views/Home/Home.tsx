@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useAuth0 } from "@auth0/auth0-react";
 import * as S from "./Home.styled";
 import DislikeIcon from "../../components/icons/DislikeIcon";
@@ -7,8 +7,12 @@ import OccupationIcon from "../../components/icons/OccupationIcon";
 import ArrowIcon from "../../components/icons/ArrowIcon";
 import SpyIcon from "../../components/icons/SpyIcon";
 import { useGazeProvider } from "../../providers/gazeCloud";
+import format_data, { BubbleData } from "../../utils/FormatData";
+import { testData } from "../../assets/testData";
+import { Heatmap } from "../../components/heatmap";
 
 export const Home: React.FC = () => {
+  const [formattedData, setFormattedData] = useState<Array<BubbleData>>([]);
   const { user } = useAuth0();
   const [
     triggerCalibration,
@@ -22,7 +26,6 @@ export const Home: React.FC = () => {
   }, [user]);
 
   useEffect(() => {
-    console.log("is this formatted? ", data);
     /* 
       Should have calibrated before viewing this page
 
@@ -34,6 +37,10 @@ export const Home: React.FC = () => {
       
       Then will need to reset this.
     */
+    // if (data) {
+    //   console.log("data: ", data);
+    //   setFormattedData(() => format_data(data));
+    // }
   }, [data]);
 
   useEffect(() => {
@@ -45,10 +52,10 @@ export const Home: React.FC = () => {
   }, [isProcessing]);
 
   useEffect(() => {
-    // startTracking();
-    // setTimeout(() => {
-    //   stopTracking();
-    // }, 20000);
+    startTracking();
+    setTimeout(() => {
+      stopTracking();
+    }, 20000);
   }, []);
 
   return (

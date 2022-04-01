@@ -133,8 +133,8 @@ const ContractsProfile = (props: any) => {
       </div>
 
       <div className="row">
-        {/* <div className="item contract-heatmap">HEATMAP HERE</div> */}
-        <Heatmap />
+        <div className="item contract-heatmap">HEATMAP HERE</div>
+        {/* <Heatmap /> */}
       </div>
 
       <div className="sd-icon">

@@ -26,19 +26,23 @@ export const options = {
   },
 };
 
-const formattedTestData = formatData(testData);
-
-export const data = {
-  datasets: [
-    {
-      label: "Views",
-      data: formattedTestData,
-      backgroundColor: "rgba(53, 162, 235, 0.5)",
-    },
-  ],
+type Props = {
+  formattedData: any;
 };
 
-const Heatmap: React.FC = () => {
+const Heatmap: React.FC<Props> = ({ formattedData }) => {
+  const formattedTestData = formatData(formattedData);
+
+  const data = {
+    datasets: [
+      {
+        label: "Views",
+        data: formattedTestData,
+        backgroundColor: "rgba(53, 162, 235, 0.5)",
+      },
+    ],
+  };
+
   return <Bubble options={options} data={data} />;
 };
 
