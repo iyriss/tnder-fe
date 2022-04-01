@@ -5,7 +5,6 @@ import {
   CarouselItem,
   CarouselControl,
   CarouselIndicators,
-  CarouselCaption,
 } from "reactstrap";
 
 import * as S from "./Home.styled";
@@ -14,6 +13,7 @@ import LikeIcon from "../../components/icons/LikeIcon";
 import SpyIcon from "../../components/icons/SpyIcon";
 import { useGazeProvider } from "../../providers/gazeCloud";
 import { MissionProfile } from "./MissionProfiles";
+import { MissionsCompleted } from "./MissionsCompleted/MissionsCompleted";
 import format_data, { BubbleData } from "../../utils/FormatData";
 import { ProfileApi } from "../../apis/ProfileApi";
 import "./MissionProfiles.css";
@@ -32,24 +32,7 @@ export const Home: React.FC = () => {
     { data, error, isProcessing },
   ] = useGazeProvider();
 
-  const [profiles, setProfiles] = useState([
-    {
-      avatar:
-        "https://upload.wikimedia.org/wikipedia/commons/8/89/Portrait_Placeholder.png",
-      name: "Luis",
-      age: 29,
-      job: "MI6 @ British Intelligence ",
-      bio: "Experienced infiltration operator. Count on me to get the job done. Quietly.",
-    },
-    {
-      avatar:
-        "https://upload.wikimedia.org/wikipedia/commons/8/89/Portrait_Placeholder.png",
-      name: "Luis",
-      age: 22,
-      job: "MI6 @ British Intelligence ",
-      bio: "Experienced infiltration operator. Count on me to get the job done. Quietly.",
-    },
-  ]);
+  const [profiles, setProfiles] = useState([{}]);
 
   useEffect(() => {
     console.log("user: ", user);
@@ -118,6 +101,7 @@ export const Home: React.FC = () => {
   const next = () => {
     if (animating) return;
     if (activeIndex === profiles.length - 1) {
+      //TODO: check if user liked or not the profile before next
       setMissionsCleared(true);
       return;
     }
@@ -140,8 +124,20 @@ export const Home: React.FC = () => {
   };
 
   if (missionsCleared) {
-    return null; // add misisons completed view
+    return <MissionsCompleted />;
   }
+
+  const handleLike = () => {
+    profileApi.likeUser({
+      user: user?.email,
+      //@ts-ignore
+      likedUser: profiles[activeIndex].user,
+    });
+    console.log("liked");
+  };
+  const handleDislike = () => {
+    console.log("dislied");
+  };
 
   return (
     <S.DashboardPage>
@@ -192,8 +188,8 @@ export const Home: React.FC = () => {
           })}
         </Carousel>
         <S.ActionButtonsContainer>
-          <DislikeIcon />
-          <LikeIcon />
+          <DislikeIcon onClick={handleDislike} />
+          <LikeIcon onClick={handleLike} />
         </S.ActionButtonsContainer>
         <S.MissionNumberContainer>
           <SpyIcon />

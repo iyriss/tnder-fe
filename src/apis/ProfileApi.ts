@@ -17,4 +17,9 @@ export class ProfileApi {
     const res = await axios.get(this.baseURL + "/profile/" + userEmail);
     return res;
   }
+
+  public async likeUser(likedData: any) {
+    const res = await axios.post(this.baseURL + "/profile/like", likedData);
+    return res;
+  }
 }
