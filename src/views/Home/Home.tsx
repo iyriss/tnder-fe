@@ -1,14 +1,22 @@
-import { useEffect, useState } from "react";
-import { useAuth0 } from "@auth0/auth0-react";
-import * as S from "./Home.styled";
-import DislikeIcon from "../../components/icons/DislikeIcon";
-import LikeIcon from "../../components/icons/LikeIcon";
-import OccupationIcon from "../../components/icons/OccupationIcon";
-import ArrowIcon from "../../components/icons/ArrowIcon";
-import SpyIcon from "../../components/icons/SpyIcon";
-import { useGazeProvider } from "../../providers/gazeCloud";
-import format_data, { BubbleData } from "../../utils/FormatData";
-import { ProfileApi } from "../../apis/ProfileApi";
+import { useEffect, useState } from 'react';
+import { useAuth0 } from '@auth0/auth0-react';
+import {
+  Carousel,
+  CarouselItem,
+  CarouselControl,
+  CarouselIndicators,
+  CarouselCaption,
+} from 'reactstrap';
+
+import * as S from './Home.styled';
+import DislikeIcon from '../../components/icons/DislikeIcon';
+import LikeIcon from '../../components/icons/LikeIcon';
+import SpyIcon from '../../components/icons/SpyIcon';
+import { useGazeProvider } from '../../providers/gazeCloud';
+import { MissionProfile } from './MissionProfiles';
+import format_data, { BubbleData } from '../../utils/FormatData';
+import { ProfileApi } from '../../apis/ProfileApi';
+import './MissionProfiles.css';
 
 export const Home: React.FC = () => {
   const [formattedData, setFormattedData] = useState<Array<BubbleData>>([]);
@@ -21,10 +29,27 @@ export const Home: React.FC = () => {
     { data, error, isProcessing },
   ] = useGazeProvider();
 
-  const [profiles, setProfiles] = useState([{}]);
+  const [profiles, setProfiles] = useState([
+    {
+      avatar:
+        'https://upload.wikimedia.org/wikipedia/commons/8/89/Portrait_Placeholder.png',
+      name: 'Luis',
+      age: 29,
+      job: 'MI6 @ British Intelligence ',
+      bio: 'Experienced infiltration operator. Count on me to get the job done. Quietly.',
+    },
+    {
+      avatar:
+        'https://upload.wikimedia.org/wikipedia/commons/8/89/Portrait_Placeholder.png',
+      name: 'Luis',
+      age: 22,
+      job: 'MI6 @ British Intelligence ',
+      bio: 'Experienced infiltration operator. Count on me to get the job done. Quietly.',
+    },
+  ]);
 
   useEffect(() => {
-    console.log("user: ", user);
+    console.log('user: ', user);
     //cant use async in useffect
     const getData = async () => {
       const profiles = await profileApi.getProfiles(user?.email);
@@ -52,11 +77,11 @@ export const Home: React.FC = () => {
   }, [data]);
 
   useEffect(() => {
-    console.log("error: ", error);
+    console.log('error: ', error);
   }, [error]);
 
   useEffect(() => {
-    console.log("isProcessing: ", isProcessing);
+    console.log('isProcessing: ', isProcessing);
   }, [isProcessing]);
 
   useEffect(() => {
@@ -66,10 +91,42 @@ export const Home: React.FC = () => {
     // }, 20000);
   }, []);
 
+  const [activeIndex, setActiveIndex] = useState(0);
+  const [animating, setAnimating] = useState(false);
+  const [missionsCleared, setMissionsCleared] = useState(false);
+
+  const next = () => {
+    if (animating) return;
+    if (activeIndex === profiles.length - 1) {
+      setMissionsCleared(true);
+      return;
+    }
+    const nextIndex = activeIndex + 1;
+    setActiveIndex(nextIndex);
+  };
+
+  const previous = () => {
+    if (animating) return;
+    if (activeIndex === 0) {
+      return;
+    }
+    const nextIndex = activeIndex === 0 ? profiles.length - 1 : activeIndex - 1;
+    setActiveIndex(nextIndex);
+  };
+
+  const goToIndex = (newIndex: number) => {
+    if (animating) return;
+    setActiveIndex(newIndex);
+  };
+
+  if (missionsCleared) {
+    return null; // add misisons completed view
+  }
+
   return (
     <S.DashboardPage>
       <S.Title>
-        Welcome back USERNAME!{" "}
+        Welcome back USERNAME!{' '}
         {profiles.length < 2 ? (
           <span>You have 1 mission available today.</span>
         ) : (
@@ -78,45 +135,51 @@ export const Home: React.FC = () => {
           </span>
         )}
       </S.Title>
-      <S.DashboardCards>
-        <S.ProfileCard>
-          <img
-            src={
-              "https://media.istockphoto.com/vectors/cartoon-ninja-illustration-vector-id831242374?k=20&m=831242374&s=170667a&w=0&h=gWV3OgPPUpPcick_BR1Ki76xzhjxTs4iVqjCxKQdSzo="
-            }
-            alt="agent"
+      <div style={{ width: '100vw' }}>
+        <Carousel
+          interval={false}
+          activeIndex={activeIndex}
+          next={next}
+          previous={previous}
+        >
+          <CarouselIndicators
+            items={profiles}
+            activeIndex={activeIndex}
+            onClickHandler={goToIndex}
           />
-          <S.NameAgeStripe>
-            {/* @ts-ignore */}
-            <S.Title>{profiles[0].name + ", " + profiles[0].age}</S.Title>
-            {/* i hate ts for small projects nick :) */}
-          </S.NameAgeStripe>
-        </S.ProfileCard>
-        <S.IntelligenceCard>
-          <S.Text fontSize={"30px"}>Intelligence report</S.Text>
-          <S.IntelligenceInnerCard>
-            <S.OccupationContainer>
-              <OccupationIcon />
-              <br />
-              {/* @ts-ignore */}
-              <S.Text fontSize={"16px"}>{profiles[0].job}</S.Text>
-            </S.OccupationContainer>
-            {/* @ts-ignore */}
-            <S.Text fontSize={"16px"}>{profiles[0].description}</S.Text>
-          </S.IntelligenceInnerCard>
-        </S.IntelligenceCard>
-        <S.ArrowContainer>
-          <ArrowIcon />
-        </S.ArrowContainer>
-      </S.DashboardCards>
-      <S.ActionButtonsContainer>
-        <DislikeIcon />
-        <LikeIcon />
-      </S.ActionButtonsContainer>
-      <S.MissionNumberContainer>
-        <SpyIcon />
-        <S.Text> x {profiles.length}</S.Text>
-      </S.MissionNumberContainer>
+          {profiles.map((profile: any, index) => {
+            return (
+              <CarouselItem
+                onExiting={() => setAnimating(true)}
+                onExited={() => setAnimating(false)}
+                key={index}
+              >
+                {MissionProfile(profile)}
+                {activeIndex !== 0 ? (
+                  <CarouselControl
+                    direction='prev'
+                    directionText='Previous'
+                    onClickHandler={previous}
+                  />
+                ) : null}
+                <CarouselControl
+                  direction='next'
+                  directionText='Next'
+                  onClickHandler={next}
+                />
+              </CarouselItem>
+            );
+          })}
+        </Carousel>
+        <S.ActionButtonsContainer>
+          <DislikeIcon />
+          <LikeIcon />
+        </S.ActionButtonsContainer>
+        <S.MissionNumberContainer>
+          <SpyIcon />
+          <S.Text> x {activeIndex + 1}</S.Text>
+        </S.MissionNumberContainer>
+      </div>
     </S.DashboardPage>
   );
 };
