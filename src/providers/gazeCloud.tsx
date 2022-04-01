@@ -1,11 +1,12 @@
 import { useAuth0 } from "@auth0/auth0-react";
 import React, { useContext, useState } from "react";
+import { HeatmapApi } from "../apis/HeatmapApi";
 import format_data, { DataType } from "../utils/FormatData";
 
 type GazeResult = [
   () => void,
   () => void,
-  () => void,
+  (viewer: string) => void,
   {
     data: Array<DataType> | null;
     isProcessing: boolean;
@@ -20,6 +21,7 @@ export const GazeCloudProvider: React.FC = ({ children }): any => {
   const [error, setError] = useState<string | null>(null);
   const [data, setData] = useState<Array<DataType> | null>([]);
   const { user } = useAuth0();
+  const heatmapApi = new HeatmapApi();
 
   let gazeData: any = [];
   const triggerCalibration = () => {
@@ -56,7 +58,7 @@ export const GazeCloudProvider: React.FC = ({ children }): any => {
     };
   };
 
-  const stopTracking = () => {
+  const stopTracking = (viewer: string) => {
     // @ts-ignore
     (GazeCloudAPI as any).StopEyeTracking();
 
@@ -70,7 +72,15 @@ export const GazeCloudProvider: React.FC = ({ children }): any => {
       }
     );
 
-    setData(format_data(data));
+    const localData = format_data(data);
+    const beData = {
+      user: user?.email,
+      viewer: viewer,
+      heatmap: localData,
+    };
+
+    heatmapApi.createHeatmap(beData);
+
     gazeData = [];
   };
 

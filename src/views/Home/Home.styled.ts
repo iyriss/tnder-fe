@@ -1,13 +1,13 @@
-import styled from 'styled-components';
+import styled from "styled-components";
 
 interface TextProps {
   fontSize?: string;
   fontWeight?: string;
 }
 
-export const Text = styled('p')<TextProps>`
-  font-size: ${(props) => (props.fontSize ? props.fontSize : '16px')};
-  font-weight: ${(props) => (props.fontWeight ? props.fontWeight : 'normal')};
+export const Text = styled("p")<TextProps>`
+  font-size: ${(props) => (props.fontSize ? props.fontSize : "16px")};
+  font-weight: ${(props) => (props.fontWeight ? props.fontWeight : "normal")};
   margin: 0;
   color: #fff;
 `;
@@ -21,7 +21,7 @@ export const DashboardPage = styled.div`
 `;
 
 export const DashboardCards = styled.div`
-  position: 'relative';
+  position: "relative";
   display: flex;
   justify-content: center;
   align-items: center;

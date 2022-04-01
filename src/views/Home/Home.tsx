@@ -18,13 +18,11 @@ import format_data, { BubbleData } from "../../utils/FormatData";
 import { ProfileApi } from "../../apis/ProfileApi";
 import "./MissionProfiles.css";
 import { HeatmapApi } from "../../apis/HeatmapApi";
-import { testData } from "../../assets/testData";
+import { testData, createHeatMap } from "../../assets/testData";
 
 export const Home: React.FC = () => {
-  const [formattedData, setFormattedData] = useState<Array<BubbleData>>([]);
   const { user } = useAuth0();
   const profileApi = new ProfileApi();
-  const heatmapApi = new HeatmapApi();
   const [
     triggerCalibration,
     startTracking,
@@ -32,39 +30,26 @@ export const Home: React.FC = () => {
     { data, error, isProcessing },
   ] = useGazeProvider();
 
-  const [profiles, setProfiles] = useState([{}]);
+  const [profiles, setProfiles] = useState<any>([{}]);
+
+  // useEffect(() => {
+  //   console.log("firing");
+  //   createHeatMap();
+  // }, []);
 
   useEffect(() => {
-    console.log("user: ", user);
-    //cant use async in useffect
-    const getData = async () => {
-      const profiles = await profileApi.getProfiles(user?.email);
-      setProfiles(profiles.data);
-    };
-    getData();
+    if (user) {
+      const getData = async () => {
+        const profiles = await profileApi.getProfiles(user?.email);
+        setProfiles(profiles.data);
+      };
+      getData();
+    }
   }, [user]);
 
   useEffect(() => {
-    /* 
-      Should have calibrated before viewing this page
-
-      On view start tracking. If more than 20 seconds stop to
-      limit data
-
-      When user presses yes or no we call stop tracking
-      and send data to be
-      
-      Then will need to reset this.
-    */
-    // if (data) {
-    //   const formattedData = format_data(data);
-    //   const heatmapData = {
-    //     userId: user?.email,
-    //     viewer:
-    //   }
-    // heatmapApi.postHeatmap(formattedData);
-    // }
-  }, [data]);
+    startTracking();
+  }, []);
 
   useEffect(() => {
     console.log("error: ", error);
@@ -74,32 +59,13 @@ export const Home: React.FC = () => {
     console.log("isProcessing: ", isProcessing);
   }, [isProcessing]);
 
-  const handleStopTracking = () => {
-    stopTracking();
-  };
-
-  useEffect(() => {
-    // startTracking();
-    const beData = {
-      user: "test@gmail.com",
-      viewer: "viewer@gmail.com",
-      heatmap: testData,
-    };
-    const getHeatmaps = async () => {
-      const heatmaps = await heatmapApi.getMatchHeatmap();
-      console.log("heatmaps: ", heatmaps);
-    };
-    console.log("insde here");
-    getHeatmaps();
-    // heatmapApi.createHeatmap(beData);
-  }, []);
-
   const [activeIndex, setActiveIndex] = useState(0);
   const [animating, setAnimating] = useState(false);
   const [missionsCleared, setMissionsCleared] = useState(false);
 
   const next = () => {
     if (animating) return;
+    stopTracking("anonymous");
     if (activeIndex === profiles.length - 1) {
       //TODO: check if user liked or not the profile before next
       setMissionsCleared(true);
@@ -111,6 +77,7 @@ export const Home: React.FC = () => {
 
   const previous = () => {
     if (animating) return;
+    stopTracking("anonymous");
     if (activeIndex === 0) {
       return;
     }
@@ -120,14 +87,17 @@ export const Home: React.FC = () => {
 
   const goToIndex = (newIndex: number) => {
     if (animating) return;
+    stopTracking("anonymous");
     setActiveIndex(newIndex);
   };
 
   if (missionsCleared) {
+    stopTracking(profiles[activeIndex].email);
     return <MissionsCompleted />;
   }
 
   const handleLike = () => {
+    stopTracking(profiles[activeIndex].email);
     profileApi.likeUser({
       user: user?.email,
       //@ts-ignore
@@ -136,7 +106,7 @@ export const Home: React.FC = () => {
     console.log("liked");
   };
   const handleDislike = () => {
-    console.log("dislied");
+    stopTracking("anonymous");
   };
 
   return (
@@ -163,7 +133,7 @@ export const Home: React.FC = () => {
             activeIndex={activeIndex}
             onClickHandler={goToIndex}
           />
-          {profiles.map((profile: any, index) => {
+          {profiles.map((profile: any, index: number) => {
             return (
               <CarouselItem
                 onExiting={() => setAnimating(true)}

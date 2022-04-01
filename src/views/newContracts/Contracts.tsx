@@ -24,45 +24,18 @@ import styled from "styled-components";
 export const Contracts: React.FC = () => {
   const [formattedData, setFormattedData] = useState<Array<BubbleData>>([]);
   const { user } = useAuth0();
-  const profileApi = new ProfileApi();
-  const heatmapApi = new HeatmapApi();
-  const [
-    triggerCalibration,
-    startTracking,
-    stopTracking,
-    { data, error, isProcessing },
-  ] = useGazeProvider();
 
   const [profiles, setProfiles] = useState([
     {
       avatar:
-        "https://upload.wikimedia.org/wikipedia/commons/8/89/Portrait_Placeholder.png",
+        "https://res.cloudinary.com/dmqw05q9j/image/upload/v1648847379/sobhan-joodi-r9hi9oMlVvc-unsplash_ftzorh.jpg",
       name: "Luis",
       age: 29,
       job: "MI6 @ British Intelligence ",
-      bio: "Experienced infiltration operator. Count on me to get the job done. Quietly.",
-    },
-    {
-      avatar:
-        "https://upload.wikimedia.org/wikipedia/commons/8/89/Portrait_Placeholder.png",
-      name: "Luis",
-      age: 22,
-      job: "MI6 @ British Intelligence ",
-      bio: "Experienced infiltration operator. Count on me to get the job done. Quietly.",
+      description: `Experienced infiltration operator. Count on me to get the job done. Quietly. Sometimes I like to skydive.Just to land straight to your heart.
+      I’m joking I would only parachute through an open hatch of a building to catch someone, or something.`,
     },
   ]);
-
-  useEffect(() => {
-    if (user) {
-      // const getProfiles = async () => {
-      //   const profiles = await profileApi.getProfiles(user?.email);
-      //   console.log("profiles: ", profiles);
-      //   setProfiles(profiles.data);
-      // };
-      // getProfiles();
-      // setProfiles(userProfiles);
-    }
-  }, [user]);
 
   const [activeIndex, setActiveIndex] = useState(0);
   const [animating, setAnimating] = useState(false);

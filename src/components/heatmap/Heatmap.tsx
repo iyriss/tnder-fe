@@ -8,7 +8,6 @@ import {
   Legend,
 } from "chart.js";
 import { Bubble } from "react-chartjs-2";
-import { testData } from "../../assets/testData";
 
 ChartJS.register(LinearScale, PointElement, Tooltip, Legend);
 
@@ -39,14 +38,13 @@ const Heatmap: React.FC<Props> = ({ formattedData }) => {
       },
     ],
   };
-  console.log("formattedData: ", formattedData);
 
   return (
     <div
       style={{
         position: "absolute",
         left: 0,
-        top: 0,
+        top: 150,
         width: "100%",
         height: "100%",
         zIndex: 4,
