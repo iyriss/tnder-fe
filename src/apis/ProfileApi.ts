@@ -22,4 +22,12 @@ export class ProfileApi {
     const res = await axios.post(this.baseURL + "/profile/like", likedData);
     return res;
   }
+
+  public async dislikeUser(dislikedData: any) {
+    const res = await axios.post(
+      this.baseURL + "/profile/dislike",
+      dislikedData
+    );
+    return res;
+  }
 }

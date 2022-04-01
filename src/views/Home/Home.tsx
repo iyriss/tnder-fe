@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { useAuth0 } from "@auth0/auth0-react";
 import {
   Carousel,
@@ -21,6 +22,8 @@ import { HeatmapApi } from "../../apis/HeatmapApi";
 import { testData, createHeatMap } from "../../assets/testData";
 
 export const Home: React.FC = () => {
+  const navigate = useNavigate();
+  const [formattedData, setFormattedData] = useState<Array<BubbleData>>([]);
   const { user } = useAuth0();
   const profileApi = new ProfileApi();
   const [
@@ -100,15 +103,23 @@ export const Home: React.FC = () => {
       likedUser: profiles[activeIndex].user,
     });
     console.log("liked");
+    navigate("/contracts");
   };
-  const handleDislike = () => {
-    stopTracking("anonymous");
+  const handleDislike = async () => {
+    profileApi.dislikeUser({
+      user: user?.email,
+      //@ts-ignore
+      dislikedUser: profiles[activeIndex].user,
+    });
+    const dislikeProfiles = await profileApi.getProfiles(user?.email);
+    setProfiles(dislikeProfiles.data);
+    console.log("disliked");
   };
 
   return (
     <S.DashboardPage>
       <S.Title>
-        Welcome back {user?.name}!{" "}
+        Welcome back {user?.given_name}!{" "}
         {profiles.length < 2 ? (
           <span>You have 1 mission available today.</span>
         ) : (
