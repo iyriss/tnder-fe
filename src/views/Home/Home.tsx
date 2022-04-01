@@ -9,11 +9,14 @@ import SpyIcon from "../../components/icons/SpyIcon";
 import { useGazeProvider } from "../../providers/gazeCloud";
 import format_data, { BubbleData } from "../../utils/FormatData";
 import { ProfileApi } from "../../apis/ProfileApi";
+import { testData } from "../../assets/testData";
+import { HeatmapApi } from "../../apis/HeatmapApi";
 
 export const Home: React.FC = () => {
   const [formattedData, setFormattedData] = useState<Array<BubbleData>>([]);
   const { user } = useAuth0();
   const profileApi = new ProfileApi();
+  const heatmapApi = new HeatmapApi();
   const [
     triggerCalibration,
     startTracking,
@@ -64,6 +67,17 @@ export const Home: React.FC = () => {
     // setTimeout(() => {
     //   stopTracking();
     // }, 20000);
+    const beData = {
+      user: "test@gmail.com",
+      viewer: "viewer@gmail.com",
+      heatmap: testData,
+    };
+    const getHeatmaps = async () => {
+      const heatmaps = await heatmapApi.getMatchHeatmap();
+      console.log("heatmaps: ", heatmaps);
+    };
+    getHeatmaps();
+    // heatmapApi.createHeatmap(beData);
   }, []);
 
   return (
