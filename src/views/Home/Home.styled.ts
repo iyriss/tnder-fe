@@ -9,6 +9,7 @@ export const Text = styled('p')<TextProps>`
   font-size: ${(props) => (props.fontSize ? props.fontSize : '16px')};
   font-weight: ${(props) => (props.fontWeight ? props.fontWeight : 'normal')};
   margin: 0;
+  color: #fff;
 `;
 
 export const DashboardPage = styled.div`
@@ -16,21 +17,22 @@ export const DashboardPage = styled.div`
   flex-direction: column;
   align-items: center;
   margin: 20px 40px;
+  overflow-x: hidden;
 `;
 
 export const DashboardCards = styled.div`
   position: 'relative';
   display: flex;
-  justify-content: space-evenly;
+  justify-content: center;
   align-items: center;
   flex-wrap: wrap;
-  width: 100%;
 `;
 
 export const Title = styled.p`
   font-weight: 600;
   font-size: 30px;
   line-height: 35.16px;
+  color: #fff;
 `;
 
 export const ProfileCard = styled.div`
@@ -88,7 +90,9 @@ export const ActionButtonsContainer = styled.div`
   display: flex;
   justify-content: space-between;
   width: 400px;
-  padding-top: 50px;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 50px;
 `;
 
 export const MissionNumberContainer = styled.div`
@@ -97,10 +101,4 @@ export const MissionNumberContainer = styled.div`
   align-items: center;
   width: 150px;
   margin: 20px 50px 40px auto;
-`;
-
-export const ArrowContainer = styled.div`
-  position: absolute;
-  right: 50px;
-  cursor: pointer;
 `;
