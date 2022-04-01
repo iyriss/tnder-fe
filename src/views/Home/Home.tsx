@@ -48,10 +48,6 @@ export const Home: React.FC = () => {
   }, [user]);
 
   useEffect(() => {
-    startTracking();
-  }, []);
-
-  useEffect(() => {
     console.log("error: ", error);
   }, [error]);
 
@@ -112,7 +108,7 @@ export const Home: React.FC = () => {
   return (
     <S.DashboardPage>
       <S.Title>
-        Welcome back USERNAME!{" "}
+        Welcome back {user?.name}!{" "}
         {profiles.length < 2 ? (
           <span>You have 1 mission available today.</span>
         ) : (
@@ -163,7 +159,7 @@ export const Home: React.FC = () => {
         </S.ActionButtonsContainer>
         <S.MissionNumberContainer>
           <SpyIcon />
-          <S.Text> x {activeIndex + 1}</S.Text>
+          <S.Text> x {profiles.length}</S.Text>
         </S.MissionNumberContainer>
       </div>
     </S.DashboardPage>
