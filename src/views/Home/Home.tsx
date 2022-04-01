@@ -6,6 +6,8 @@ import LikeIcon from "../../components/icons/LikeIcon";
 import OccupationIcon from "../../components/icons/OccupationIcon";
 import { Calibration } from "../../components/callibration/";
 import { StopButton } from "../../components/dataButtons";
+import ArrowIcon from "../../components/icons/ArrowIcon";
+import SpyIcon from "../../components/icons/SpyIcon";
 
 export const Home: React.FC = () => {
   const { user } = useAuth0();
@@ -28,6 +30,9 @@ export const Home: React.FC = () => {
             }
             alt="agent"
           />
+          <S.NameAgeStripe>
+            <S.Title>Name, Age</S.Title>
+          </S.NameAgeStripe>
         </S.ProfileCard>
         <S.IntelligenceCard>
           <S.Text fontSize={"30px"}>Intelligence report</S.Text>
@@ -40,6 +45,9 @@ export const Home: React.FC = () => {
             <S.Text fontSize={"16px"}>Description</S.Text>
           </S.IntelligenceInnerCard>
         </S.IntelligenceCard>
+        <S.ArrowContainer>
+          <ArrowIcon />
+        </S.ArrowContainer>
       </S.DashboardCards>
       <S.ActionButtonsContainer>
         <DislikeIcon />
@@ -47,6 +55,10 @@ export const Home: React.FC = () => {
         <Calibration />
         <StopButton />
       </S.ActionButtonsContainer>
+      <S.MissionNumberContainer>
+        <SpyIcon />
+        <S.Text> x Number</S.Text>
+      </S.MissionNumberContainer>
     </S.DashboardPage>
   );
 };
