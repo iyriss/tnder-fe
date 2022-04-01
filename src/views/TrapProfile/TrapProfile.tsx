@@ -12,13 +12,13 @@ import { useAuth0 } from '@auth0/auth0-react';
 
 export const TrapProfile: React.FC = () => {
   const { user } = useAuth0();
-  const [profile, setProfile] = useState({
+  const [profile, setProfile] = useState<any>({
     user: user?.email || '',
     name: 'name',
     age: 18,
     job: 'job',
     description: 'bio',
-    images: [
+    pictures: [
       'https://media.istockphoto.com/vectors/cartoon-ninja-illustration-vector-id831242374?k=20&m=831242374&s=170667a&w=0&h=gWV3OgPPUpPcick_BR1Ki76xzhjxTs4iVqjCxKQdSzo=',
     ],
   });
@@ -26,6 +26,12 @@ export const TrapProfile: React.FC = () => {
 
   const profileApi = new ProfileApi();
   const imageApi = new ImageApi();
+
+  useEffect(() => {
+    if (userProfile !== {}) {
+      setProfile(userProfile);
+    }
+  }, [userProfile]);
 
   useEffect(() => {
     const getData = async () => {
@@ -38,6 +44,7 @@ export const TrapProfile: React.FC = () => {
   const createProfile: any = (e: any) => {
     e.preventDefault();
     profileApi.createProfile(profile);
+    setUserProfile(profile);
   };
 
   const handleChange: any = (e: any) => {
@@ -60,9 +67,9 @@ export const TrapProfile: React.FC = () => {
     formData.append('upload_preset', 'mo7qnts3');
     const res = await imageApi.uploadImages(formData);
     console.log('Res', res);
-    setProfile((profile) => ({
+    setProfile((profile: any) => ({
       ...profile,
-      images: [res.url],
+      pictures: [res.url],
     }));
   };
 
@@ -73,112 +80,94 @@ export const TrapProfile: React.FC = () => {
       </Text>
       <br />
 
-      {!userProfile ? (
+      <S.RowContainer>
         <div>
-          <h1>Your profile</h1>
-          {/* @ts-ignore */}
-          <h2>Name: {userProfile.name}</h2>
-          {/* @ts-ignore */}
-          <h2>Age: {userProfile.age}</h2>
-        </div>
-      ) : (
-        <S.RowContainer>
-          <div>
-            <ProfileCard>
-              <img
-                src={
-                  userProfile?.images?.[0]
-                    ? userProfile.images[0]
-                    : profile.images[0]
-                }
-                alt='agent'
+          <ProfileCard>
+            <img src={profile?.pictures?.[0]} alt='agent' />
+          </ProfileCard>
+          <S.ProfileCardFooter>
+            <Text fontSize='16px'>This is the photo the users will see.</Text>
+            <S.InputFileButton>
+              <label htmlFor='upload-img'>Select Image</label>
+              <input
+                type='file'
+                id='upload-img'
+                style={{ visibility: 'hidden' }}
+                onChange={(e) => {
+                  handleImageUpload(e.target.files);
+                }}
               />
-            </ProfileCard>
-            <S.ProfileCardFooter>
-              <Text fontSize='16px'>This is the photo the users will see.</Text>
-              <S.InputFileButton>
-                <label htmlFor='upload-img'>Select Image</label>
-                <input
-                  type='file'
-                  id='upload-img'
-                  style={{ visibility: 'hidden' }}
-                  onChange={(e) => {
-                    handleImageUpload(e.target.files);
-                  }}
-                />
-              </S.InputFileButton>
-            </S.ProfileCardFooter>
-          </div>
+            </S.InputFileButton>
+          </S.ProfileCardFooter>
+        </div>
+        <S.ProfileInputContainer>
+          <S.ColumnContainer>
+            <Text fontSize='24px' fontWeight='600'>
+              Alias
+            </Text>
+            <div className='input'>
+              <CredentialIcon />
+              <input
+                className='input-field'
+                type='text'
+                name='name'
+                value={profile.name}
+                onChange={handleChange}
+              />
+            </div>
+          </S.ColumnContainer>
 
-          <S.ProfileInputContainer>
-            <S.ColumnContainer>
-              <Text fontSize='24px' fontWeight='600'>
-                Alias
-              </Text>
-              <div className='input'>
-                <CredentialIcon />
-                <input
-                  className='input-field'
-                  type='text'
-                  name='name'
-                  value={profile.name}
-                  onChange={handleChange}
-                />
-              </div>
-            </S.ColumnContainer>
+          <S.ColumnContainer>
+            <Text fontSize='24px' fontWeight='600'>
+              Age
+            </Text>
+            <div className='input'>
+              <CredentialIcon />
+              <input
+                className='input-field'
+                type='text'
+                name='age'
+                value={profile.age}
+                onChange={handleChange}
+              />
+            </div>
+          </S.ColumnContainer>
 
-            <S.ColumnContainer>
-              <Text fontSize='24px' fontWeight='600'>
-                Age
-              </Text>
-              <div className='input'>
-                <CredentialIcon />
-                <input
-                  className='input-field'
-                  type='text'
-                  name='age'
-                  value={profile.age}
-                  onChange={handleChange}
-                />
-              </div>
-            </S.ColumnContainer>
+          <S.ColumnContainer>
+            <Text fontSize='24px' fontWeight='600'>
+              Your not-to-secret occupation
+            </Text>
+            <div className='input'>
+              <OccupationIcon />
+              <input
+                className='input-field'
+                type='text'
+                name='job'
+                value={profile.job}
+                onChange={handleChange}
+              />
+            </div>
+          </S.ColumnContainer>
 
-            <S.ColumnContainer>
-              <Text fontSize='24px' fontWeight='600'>
-                Your not-to-secret occupation
-              </Text>
-              <div className='input'>
-                <OccupationIcon />
-                <input
-                  className='input-field'
-                  type='text'
-                  name='job'
-                  value={profile.job}
-                  onChange={handleChange}
-                />
-              </div>
-            </S.ColumnContainer>
-
-            <S.ColumnContainer>
-              <Text fontSize='24px'>Intelligence</Text>
-              <div className='input input--textarea'>
-                <IntelligenceIcon />
-                <textarea
-                  name='description'
-                  className='input-field input-field--textarea'
-                  value={profile.description}
-                  onChange={handleChange}
-                />
-              </div>
-            </S.ColumnContainer>
-            <Button
-              text='Save all changes'
-              onClick={createProfile}
-              overrideStyles={{ marginRight: '0' }}
-            />
-          </S.ProfileInputContainer>
-        </S.RowContainer>
-      )}
+          <S.ColumnContainer>
+            <Text fontSize='24px'>Intelligence</Text>
+            <div className='input input--textarea'>
+              <IntelligenceIcon />
+              <textarea
+                name='description'
+                className='input-field input-field--textarea'
+                value={profile.description}
+                onChange={handleChange}
+              />
+            </div>
+          </S.ColumnContainer>
+          <Button
+            text='Save all changes'
+            onClick={createProfile}
+            overrideStyles={{ marginRight: '0' }}
+          />
+        </S.ProfileInputContainer>
+      </S.RowContainer>
     </S.TrapProfilePage>
   );
 };
