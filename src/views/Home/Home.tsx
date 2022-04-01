@@ -5,7 +5,6 @@ import {
   CarouselItem,
   CarouselControl,
   CarouselIndicators,
-  CarouselCaption,
 } from 'reactstrap';
 
 import * as S from './Home.styled';
@@ -14,6 +13,7 @@ import LikeIcon from '../../components/icons/LikeIcon';
 import SpyIcon from '../../components/icons/SpyIcon';
 import { useGazeProvider } from '../../providers/gazeCloud';
 import { MissionProfile } from './MissionProfiles';
+import { MissionsCompleted } from './MissionsCompleted/MissionsCompleted';
 import format_data, { BubbleData } from '../../utils/FormatData';
 import { ProfileApi } from '../../apis/ProfileApi';
 import './MissionProfiles.css';
@@ -98,6 +98,7 @@ export const Home: React.FC = () => {
   const next = () => {
     if (animating) return;
     if (activeIndex === profiles.length - 1) {
+      //TODO: check if user liked or not the profile before next
       setMissionsCleared(true);
       return;
     }
@@ -120,9 +121,8 @@ export const Home: React.FC = () => {
   };
 
   if (missionsCleared) {
-    return null; // add misisons completed view
+    return <MissionsCompleted />;
   }
-
   return (
     <S.DashboardPage>
       <S.Title>
