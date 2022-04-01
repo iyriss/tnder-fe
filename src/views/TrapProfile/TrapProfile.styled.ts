@@ -8,6 +8,10 @@ export const TrapProfilePage = styled.div`
   align-content: center;
   flex-wrap: wrap;
   margin-top: 20px;
+  margin-bottom: 40px;
+  @media (max-width: 1270px) {
+    align-items: center;
+  }
 `;
 
 export const ProfileCardFooter = styled.div`
@@ -20,6 +24,10 @@ export const RowContainer = styled.div`
   display: flex;
   align-items: flex-start;
   justify-content: center;
+  @media (max-width: 1270px) {
+    flex-wrap: wrap;
+    width: 100%;
+  }
 `;
 
 export const ColumnContainer = styled.div`
@@ -40,6 +48,19 @@ export const ColumnContainer = styled.div`
       align-items: flex-start;
     }
   }
+
+  .input-field {
+    margin-left: 10px;
+    width: 526px;
+    height: 46px;
+    font-size: 18px;
+    padding: 4px 8px;
+    font-family: 'Roboto', sans-serif;
+    &--textarea {
+      height: 172px;
+      resize: none;
+    }
+  }
 `;
 
 export const ProfileInputContainer = styled.div`
@@ -47,28 +68,6 @@ export const ProfileInputContainer = styled.div`
   flex-direction: column;
   align-items: flex-start;
   margin-left: 40px;
+  margin-top: 20px;
   width: 600px;
-`;
-
-export const Input = styled.input.attrs({
-  type: 'text',
-})`
-  margin-left: 10px;
-  width: 526px;
-  height: 46px;
-  font-size: 18px;
-  padding: 4px 8px;
-  font-family: 'Roboto', sans-serif;
-`;
-
-export const Textarea = styled.textarea.attrs({
-  type: 'text',
-})`
-  margin-left: 10px;
-  width: 526px;
-  height: 172px;
-  font-size: 18px;
-  padding: 4px 8px;
-  resize: none;
-  font-family: 'Roboto', sans-serif;
 `;

@@ -21,6 +21,7 @@ const StyledButton = styled('button')<StyledButtonProps>`
   font-size: 20px;
   margin-left: auto;
   margin-right: auto;
+  cursor: pointer;
 `;
 
 export const Button: React.FC<ButtonProps> = (props) => {
